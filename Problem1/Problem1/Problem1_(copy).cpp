@@ -24,14 +24,19 @@ void RK4(double &x, double &y, double &h, double &ynew){
 
 void Integrator(double &x, double &y, double &h, double &xend){
 	double ynew;
-	do{
+	//do
 	if (xend - x < h){
 		h = xend - x;
 	}
 	RK4(x, y, h, ynew);
 	y = ynew;
+	while (x < xend){
+		if (xend - x < h){
+			h = xend - x;
+		}
+		RK4(x, y, h, ynew);
+		y = ynew;
 	}
-	while (x < xend);
 }
 
 int main(){
@@ -53,7 +58,7 @@ int main(){
 	int m = 0;
 	xp[m] = x;
 	yp[m] = y;
-	do{
+	//do
 	double xend = x + xout;
 	if (xend > xf){
 		xend = xf;
@@ -63,9 +68,17 @@ int main(){
 	m = m + 1;
 	xp[m] = x;
 	yp[m] = y;
+	while (x < xf){
+		xend = x + xout;
+		if (xend > xf){
+			xend = xf;
+		}
+		h = dx;
+		Integrator(x, y, h, xend);
+		m = m + 1;
+		xp[m] = x;
+		yp[m] = y;
 	}
-	while (x < xf);
-
 	cout << setw(10) << "xp" << setw(10) << "yp" << endl;
 	for (int i = 0; i < 6; i++)
 	{
@@ -75,3 +88,5 @@ int main(){
 	return 0;
 
 }
+
+//add coment
